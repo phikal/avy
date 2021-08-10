@@ -2150,6 +2150,19 @@ The window scope is determined by `avy-all-windows' (ARG negates it)."
       (setq avy--old-cands (avy--read-candidates))
       (avy-process avy--old-cands))))
 
+;;;###autoload
+(defun avy-goto-string (&optional arg)
+  "Read a string of consecutive chars and jump to the first one.
+The window scope is determined by `avy-all-windows' (ARG negates it)."
+  (interactive "P")
+  (let ((avy-all-windows (if arg
+                             (not avy-all-windows)
+                           avy-all-windows))
+        (avy-timeout-seconds nil))
+    (avy-with avy-goto-char-timer
+      (avy-process
+       (avy--read-candidates)))))
+
 (defun avy-push-mark ()
   "Store the current point and window."
   (let ((inhibit-message t))
